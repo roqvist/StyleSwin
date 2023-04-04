@@ -367,7 +367,7 @@ if __name__ == "__main__":
     args.g_reg_every = 10000000    # We do not apply regularization on G
 
     if args.distributed:
-        torch.cuda.set_device('cuda:0')
+        torch.cuda.set_device(f'cuda{os.environ["LOCAL_RANK"]')
         torch.distributed.init_process_group(backend="nccl", init_method="env://", timeout=timedelta(0, 18000))
         synchronize()
 
@@ -424,18 +424,18 @@ if __name__ == "__main__":
         generator = nn.parallel.DistributedDataParallel(
             generator,
             #device_ids=[args.local_rank],
-            device_ids=[0],
+            device_ids=[int(os.environ["LOCAL_RANK"])],
             #output_device=args.local_rank,
-            output_device=0,
+            output_device=int(os.environ["LOCAL_RANK"]),
             broadcast_buffers=False,
         )
 
         discriminator = nn.parallel.DistributedDataParallel(
             discriminator,
             #device_ids=[args.local_rank],
-            device_ids=[0],
+            device_ids=[int(os.environ["LOCAL_RANK"])],
             #output_device=args.local_rank,
-            output_device=0,
+            output_device=int(os.environ["LOCAL_RANK"]),
             broadcast_buffers=False,
         )
     
