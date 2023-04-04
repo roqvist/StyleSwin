@@ -295,7 +295,7 @@ def evaluation(generator, args, steps):
                 cnt += 1
     
     gt_path = args.eval_gt_path
-    device = torch.device('cuda:0')
+    device = torch.device('cuda')
     fid = fid_score.calculate_fid_given_paths([os.path.join(args.sample_path, "eval_{}".format(
         str(steps))), gt_path], batch_size=args.val_batch_size, device=device, dims=2048)
 
@@ -368,7 +368,7 @@ if __name__ == "__main__":
 
     if args.distributed:
         torch.cuda.set_device(0)
-        torch.distributed.init_process_group(backend="nccl", init_method="env://", timeout=timedelta(0, 18000))
+        torch.distributed.init_process_group(backend="nccl")#, init_method="env://", timeout=timedelta(0, 18000))
         synchronize()
 
     if args.distributed and get_rank() != 0:
