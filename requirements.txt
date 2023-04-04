@@ -1,8 +1,9 @@
+Ninja
 torch>=1.6.0
 lmdb
 timm
 scipy
-sklearn
+scikit-learn
 einops
 tensorflow==2.11.1
 tqdm
