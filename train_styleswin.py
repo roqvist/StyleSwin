@@ -367,7 +367,7 @@ if __name__ == "__main__":
     args.g_reg_every = 10000000    # We do not apply regularization on G
 
     if args.distributed:
-        torch.cuda.set_device(f'cuda{os.environ["LOCAL_RANK"]')
+        torch.cuda.set_device(f'cuda{os.environ["LOCAL_RANK"]}')
         torch.distributed.init_process_group(backend="nccl", init_method="env://", timeout=timedelta(0, 18000))
         synchronize()
 
